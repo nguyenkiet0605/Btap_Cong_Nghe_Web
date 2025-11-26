@@ -1,0 +1,12 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+/* Hiệu ứng mượt mà cho ảnh khi di chuột vào */
+.flower-card img {
+  transition: transform 0.3s ease;
+}
+
+.flower-card:hover img {
+  transform: scale(1.05);
+}

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>14 Loài Hoa Tuyệt Đẹp Dịp Xuân Hè</title>
+    <!-- Tailwind CSS (Vẫn dùng CDN cho tiện) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font chữ Google -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Liên kết đến file CSS riêng -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-teal-600 text-white shadow-lg sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <h1 class="text-2xl font-bold flex items-center gap-2">
+          🌸 Sắc Màu Xuân Hè
+        </h1>
+        <div class="flex bg-teal-700 rounded-lg p-1">
+          <button
+            onclick="switchMode('guest')"
+            id="btn-guest"
+            class="px-4 py-2 rounded-md font-medium transition-colors bg-white text-teal-700 shadow-sm"
+          >
+            Khách Xem
+          </button>
+          <button
+            onclick="switchMode('admin')"
+            id="btn-admin"
+            class="px-4 py-2 rounded-md font-medium transition-colors text-teal-100 hover:text-white"
+          >
+            Quản Trị Viên
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+      <!-- Giao diện Khách -->
+      <div id="guest-view" class="animate-fade-in">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl font-bold text-gray-800 mb-3">
+            14 Loài Hoa Tuyệt Đẹp Thích Hợp Trồng Để Khoe Hương Sắc Dịp Xuân Hè
+          </h2>
+          <p class="text-gray-600 italic">
+            Tổng hợp những loài hoa dễ trồng, rực rỡ dưới nắng hè (Trích nguồn:
+            Afamily)
+          </p>
+        </div>
+        <div
+          id="guest-flower-list"
+          class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
+        >
+          <!-- JS sẽ render vào đây -->
+        </div>
+      </div>
+
+      <!-- Giao diện Admin -->
+      <div id="admin-view" class="hidden">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">
+            Quản Lý Danh Sách Hoa
+          </h2>
+          <button
+            onclick="openModal()"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow flex items-center gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Thêm Hoa Mới
+          </button>
+        </div>
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+          <table class="min-w-full leading-normal">
+            <thead>
+              <tr
+                class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal"
+              >
+                <th class="py-3 px-6 text-left">Hình ảnh</th>
+                <th class="py-3 px-6 text-left">Tên Hoa</th>
+                <th class="py-3 px-6 text-left">Mô tả ngắn</th>
+                <th class="py-3 px-6 text-center">Hành động</th>
+              </tr>
+            </thead>
+            <tbody
+              id="admin-flower-table"
+              class="text-gray-600 text-sm font-light"
+            >
+              <!-- JS sẽ render vào đây -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-6 text-center mt-8">
+      <p>&copy; 2024 Dự án Loài Hoa Xuân Hè.</p>
+    </footer>
+
+    <!-- Modal Form -->
+    <div
+      id="flower-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex justify-center items-center"
+    >
+      <div
+        class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 transform transition-all"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h3 id="modal-title" class="text-xl font-bold text-gray-800">
+            Thêm Loài Hoa
+          </h3>
+          <button
+            onclick="closeModal()"
+            class="text-gray-400 hover:text-gray-600"
+          >
+            &times;
+          </button>
+        </div>
+        <form id="flower-form" onsubmit="handleFormSubmit(event)">
+          <input type="hidden" id="flower-id" />
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="name"
+              >Tên Hoa</label
+            >
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="name"
+              type="text"
+              required
+              placeholder="Ví dụ: Hoa Dừa Cạn"
+            />
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="image"
+              >Đường dẫn ảnh</label
+            >
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="image"
+              type="text"
+              required
+              placeholder="images/ten-anh.jpg"
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="description"
+              >Mô tả</label
+            >
+            <textarea
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="description"
+              rows="4"
+              required
+              placeholder="Mô tả về loài hoa này..."
+            ></textarea>
+          </div>
+          <div class="flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onclick="closeModal()"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Hủy
+            </button>
+            <button
+              type="submit"
+              class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Lưu Thông Tin
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Liên kết đến file JS riêng (đặt cuối body để load xong HTML mới chạy script) -->
+    <script src="script.js"></script>
+  </body>
+</html>
+s
